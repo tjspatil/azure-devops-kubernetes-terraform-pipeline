@@ -13,26 +13,26 @@ pool:
   vmImage: $(operatingSystem)
 
 stages:
-- stage: Build
-  jobs:
-  - job: BuildJob
-    steps:
-    - bash: echo Do the build
-- stage: DevDeploy
-  jobs:
-  - deployment: DevDeployJob
-    environment: Dev
-    strategy:
-     runOnce:
-      deploy:
-       steps:
-       - script: echo deploy to Dev
-- stage: QADeploy
-  jobs:
-  - deployment: DevDeployJob
-    environment: QA
-    strategy:
-     runOnce:
-      deploy:
-       steps:
-       - script: echo deploy to QA
+  - stage: Build
+    jobs:
+    - job: BuildJob
+      steps:
+      - bash: echo "Do the build"
+  - stage: DevDeploy
+    jobs:
+    - deployment: DevDeployJob
+      environment: Dev
+      strategy:
+      runOnce:
+        deploy:
+        steps:
+        - script: echo "deploy to Dev"
+  - stage: QADeploy
+    jobs:
+    - deployment: DevDeployJob
+      environment: QA
+      strategy:
+      runOnce:
+        deploy:
+        steps:
+        - script: echo "deploy to QA"
