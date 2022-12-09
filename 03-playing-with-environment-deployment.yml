@@ -1,10 +1,16 @@
-
 trigger:
-- main
+- master
 
+strategy:
+  matrix:
+    linux:
+      operatingSystem: 'ubuntu-latest'
+    mac:
+      operatingSystem: 'macos-latest'
 
 pool:
-  vmImage: $(operatingSystem)
+  vmImage: 'ubuntu-latest'
+
 stages:
 - stage: Build
   jobs:
@@ -16,16 +22,16 @@ stages:
   - deployment: DevDeployJob
     environment: Dev
     strategy:
-    runOnce:
-      deploy:
-      steps:
-      - script: echo "deploy to Dev"
+      runOnce:
+        deploy:
+          steps:
+          - script: echo deploy to Dev
 - stage: QADeploy
   jobs:
-  - deployment: DevDeployJob
+  - deployment: QADeployJob
     environment: QA
     strategy:
-    runOnce:
-      deploy:
-      steps:
-      - script: echo "deploy to QA"
+      runOnce:
+        deploy:
+          steps:
+          - script: echo deploy to QA
